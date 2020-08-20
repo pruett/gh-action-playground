@@ -13,7 +13,7 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const listForRef = github.checks.listForRef({
+            const listForRef = await github.checks.listForRef({
               owner: context.payload.repository.owner.login,
               repo: context.payload.repository.name,
               ref: context.payload.pull_request.head.sha,
