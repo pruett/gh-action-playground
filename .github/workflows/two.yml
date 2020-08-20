@@ -1,42 +1,8 @@
-name: PR Bot
+name: Bot 2
 
 on: [pull_request]
 
 jobs:
-  job_1:
-    name: Job 1
-    runs-on: ubuntu-latest
-    steps:
-      - name: Create "Check 1"
-        id: check_1
-        uses: actions/github-script@v2
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            const { data } = await github.checks.create({
-              owner: context.payload.repository.owner.login,
-              repo: context.payload.repository.name,
-              name: "Check 1",
-              head_sha: context.payload.pull_request.head.sha,
-              status: "in_progress",
-              started_at: new Date(),
-            });
-
-            core.setOutput('checkId', data.id)
-
-      - name: Update "Check 1" (Success)
-        uses: actions/github-script@v2
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            github.checks.update({
-              owner: context.payload.repository.owner.login,
-              repo: context.payload.repository.name,
-              name: "Check 1",
-              check_run_id: ${{ steps.check_1.outputs.checkId }},
-              conclusion: "success",
-            })
-
   job_2:
     name: Job 2
     runs-on: ubuntu-latest
