@@ -13,14 +13,14 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const {data} = await github.checks.listForRef({
+            const { data: listForRefData } = await github.checks.listForRef({
               owner: context.payload.repository.owner.login,
               repo: context.payload.repository.name,
               ref: context.payload.pull_request.head.sha,
               check_name: "Job 1"
             })
 
-            console.log('list for ref: ', data.check_runs)
+            console.log('list for ref: ', listForRefData.check_runs)
 
             const { data } = await github.checks.create({
               owner: context.payload.repository.owner.login,
