@@ -28,7 +28,7 @@ jobs:
 
       - uses: actions/checkout@v2
 
-      - run: docker build -t filiph/linkcheck .
+      - run: docker build https://github.com/filiph/linkcheck --tag filiph/linkcheck
 
       - run: docker run filiph/linkcheck https://www.hashicorp.com
       # - name: Get changed files
