@@ -1,0 +1,38 @@
+name: Bot 3
+
+on: [pull_request]
+
+jobs:
+  job_3:
+    name: Job 3
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create "Check 3"
+        id: check_3
+        uses: actions/github-script@v2
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const { data } = await github.checks.create({
+              owner: context.payload.repository.owner.login,
+              repo: context.payload.repository.name,
+              name: "Check 3",
+              head_sha: context.payload.pull_request.head.sha,
+              status: "in_progress",
+              started_at: new Date(),
+            });
+
+            core.setOutput('checkId', data.id)
+
+      - name: Update "Check 3" (Neutral)
+        uses: actions/github-script@v2
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.checks.update({
+              owner: context.payload.repository.owner.login,
+              repo: context.payload.repository.name,
+              name: "Check 3",
+              check_run_id: ${{ steps.check_3.outputs.checkId }},
+              conclusion: "neutral",
+            })
