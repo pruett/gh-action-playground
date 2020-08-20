@@ -13,7 +13,7 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const { data: listForRefData } = await github.checks.listForRef({
+            const { data } = await github.checks.listForRef({
               owner: context.payload.repository.owner.login,
               repo: context.payload.repository.name,
               ref: context.payload.pull_request.head.sha,
@@ -29,7 +29,9 @@ jobs:
               started_at: new Date(),
             });
 
-            core.setOutput('checkId', listForRefData[0].check_suite.id)
+            console.log('data', data)
+
+            core.setOutput('checkId', data.check_suite.id)
 
       - name: Update "Check 1" (Success)
         uses: actions/github-script@v2
