@@ -29,9 +29,7 @@ jobs:
               started_at: new Date(),
             });
 
-            console.log('data', data)
-
-            core.setOutput('checkId', data.check_suite.id)
+            core.setOutput('checkId', data.check_runs[0].check_suite.id)
 
       - name: Update "Check 1" (Success)
         uses: actions/github-script@v2
