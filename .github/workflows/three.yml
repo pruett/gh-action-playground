@@ -13,7 +13,14 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const { data } = await github.checks.create({
+            const { data: listForRefData } = await github.checks.listForRef({
+              owner: context.payload.repository.owner.login,
+              repo: context.payload.repository.name,
+              ref: context.payload.pull_request.head.sha,
+              check_name: "Job 1"
+            })
+
+            await github.checks.create({
               owner: context.payload.repository.owner.login,
               repo: context.payload.repository.name,
               name: "Check 3",
@@ -22,7 +29,7 @@ jobs:
               started_at: new Date(),
             });
 
-            core.setOutput('checkId', data.id)
+            core.setOutput('checkId', listForRefData[0].check_suite.id)
 
       - name: Update "Check 3" (Neutral)
         uses: actions/github-script@v2
